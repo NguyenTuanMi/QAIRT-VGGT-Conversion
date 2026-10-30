@@ -1,5 +1,12 @@
+import sys
+from pathlib import Path
+
 import torch
-from dependencies.vggt.vggt.models.vggt import VGGT  # Assuming VGGT repository root
+from dependencies.vggt.vggt.models.vggt import VGGT 
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 # 1. Load model
 model = VGGT.from_pretrained("facebook/VGGT-1B").eval()
@@ -18,4 +25,4 @@ torch.onnx.export(
     input_names=['input_images'],
     output_names=['cameras', 'depth_maps', 'point_maps']
 )
-print("Exported vggt_fixed.onnx successfully.")
+print("Exported vggt_fixed.onnx successfully!")
